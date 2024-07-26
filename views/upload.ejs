@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload JavaScript with Progress Ba | CodingNepal</title>
+  <link rel="stylesheet" href="/css/upload.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+    <header>PDF Merge</header>
+    <% if (!mergedReady) { %>
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <div class="clickable">
+          <input class="file-input" type="file" name="pdfs" multiple hidden>
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Browse File to Upload</p>
+        </div>
+        <button class="merge" type="submit">Merge</button>
+      </form>
+      <% } %>
+        <section class="progress-area"></section>
+        <section class="uploaded-area"></section>
+        <% if (mergedReady) { %>
+          <a href="/download" id="downloadLink" class="button">Download</a>
+          <% } %>
+  </div>
+
+  <script src="/js/upload.js"></script>
+  <% if (mergedReady) { %>
+    <script>
+        document.getElementById('downloadLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            var link = document.createElement('a');
+            link.href = '/download';
+            link.download = 'merged.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            setTimeout(function() {
+                window.location.href = '/reset';
+            }, 2000);
+        });
+    </script>
+    <% } %>
+</body>
+
+</html>
